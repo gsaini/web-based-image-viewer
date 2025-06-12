@@ -195,6 +195,22 @@ When building zoomable image viewers with OpenSeadragon, you can choose between 
 **My Recommendation:**
 > For large images, use the DZI format for better performance and user experience. Convert your TIFF/GeoTIFF files to DZI using tools like VIPS for optimal results in OpenSeadragon.
 
+## Contributors
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/gsaini">
+        <img src="https://avatars.githubusercontent.com/u/1699577?s=96&v=4" width="80" style="border-radius:50%" alt="gsaini"/>
+        <br />
+        <sub><b>gsaini</b></sub>
+      </a>
+      <br />
+      <span>Creator & Maintainer</span>
+    </td>
+  </tr>
+</table>
+
 ### License
 
 This project is licensed under the MIT License.
