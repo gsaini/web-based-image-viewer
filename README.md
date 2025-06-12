@@ -11,7 +11,14 @@
 ![Render](https://img.shields.io/badge/Render-%23000000.svg?style=for-the-badge&logo=render&logoColor=white)
 ![Netlify](https://img.shields.io/badge/Netlify-%23000000.svg?style=for-the-badge&logo=netlify&logoColor=white)
 
-This project sets up a simple server to serve zoomable images using OpenSeadragon. It supports loading Deep Zoom Image (DZI) files via file upload or URL, and includes performance tracking for image load times.
+
+This project sets up a simple server to serve zoomable images using OpenSeadragon Javascript Library. It is ideal for:
+- **Large, high-resolution images** (e.g., microscopy, pathology, satellite, and aerial imagery)
+- **Scanned documents and maps** (where zoom and pan are essential)
+- **Deep Zoom Images (DZI)** and **tiled pyramidal images**
+- **TIFF/GeoTIFF** files (for geospatial or scientific data, especially with the GeoTIFF demo)
+
+It supports loading Deep Zoom Image (DZI) files via file upload or URL, and includes performance tracking for image load times & it is not intended for small, standard web images (like JPEG/PNG photos) where deep zooming is not required.
 
 ## Live Demos
 You can try the live demos of this project hosted on Netlify and Render. These demos showcase the functionality of loading DZI files and viewing them with OpenSeadragon. You can load DZI files from your local machine or from a URL. The viewer will display the image and log performance metrics to the browser console.
@@ -203,22 +210,6 @@ When building zoomable image viewers with OpenSeadragon, you can choose between 
 
 **My Recommendation:**
 > For large images, use the DZI format for better performance and user experience. Convert your TIFF/GeoTIFF files to DZI using tools like VIPS for optimal results in OpenSeadragon.
-
-## Contributors
-
-<table>
-  <tr>
-    <td align="center">
-      <a href="https://github.com/gsaini">
-        <img src="https://avatars.githubusercontent.com/u/1699577?s=96&v=4" width="80" style="border-radius:50%" alt="gsaini"/>
-        <br />
-        <sub><b>gsaini</b></sub>
-      </a>
-      <br />
-      <span>Creator & Maintainer</span>
-    </td>
-  </tr>
-</table>
 
 ### License
 
