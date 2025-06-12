@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Zoomable Image with OpenSeadragon</title>
+    <style>
+      #openseadragon-viewer {
+        width: 800px;
+        height: 600px;
+        margin: auto;
+        border: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <h2 style="text-align: center">OpenSeadragon Zoomable Image</h2>
+    <div style="display: flex; justify-content: center; margin: 20px;">
+      <input
+        type="text"
+        id="link-input"
+        placeholder="Enter a link address for a DZI file"
+      />
+      <button id="use-link">Load from link</button> or
+    </div>
+    <div id="openseadragon-viewer"></div>
+
+    <!-- Include OpenSeadragon library (use 5.0.1 for plugin compatibility) -->
+    <script src="./openseadragon.min.js"></script>
+    <script>
+      let viewerInitStartTime = 0;
+
+      /**
+       * Tracks and logs performance events with optional extra data.
+       * @param {string} event - The name of the event to log (e.g., 'dom-content-loaded', 'image-opened').
+       * @param {Object} [extra={}] - Additional data to include in the log.
+       */
+      function trackPerformance(event, extra = {}) {
+        const now = performance.now();
+        const data = {
+          event,
+          timestamp: Date.now(),
+          perfNow: now,
+          ...extra
+        };
+        console.log('[PERF]', data);
+      }
+
+      /**
+       * Loads a DZI image into the OpenSeadragon viewer and tracks load performance.
+       * @param {string} tileSource - The URL or object representing the DZI file to load.
+       * @param {string} [label] - Optional label for logging (e.g., file name or URL).
+       */
+      function loadDZI(tileSource, label) {
+        viewerInitStartTime = performance.now();
+        /**
+         * OpenSeadragon viewer instance for displaying zoomable images.
+         * @type {OpenSeadragon.Viewer}
+         */
+        const viewer = OpenSeadragon({
+          id: "openseadragon-viewer",
+          prefixUrl: "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.0.0/images/",
+          tileSources: tileSource,
+          showNavigator: true,
+          visibilityRatio: 1.0,
+          minZoomLevel: 1,
+          maxZoomLevel: 20
+        });
+        /**
+         * Event handler for when the image is fully loaded and displayed.
+         * Logs the time taken from initialization to display.
+         */
+        viewer.addHandler('open', function() {
+          const imageOpenedTime = performance.now();
+          const loadTimeSeconds = ((imageOpenedTime - viewerInitStartTime) / 1000).toFixed(3);
+          trackPerformance('image-opened', {
+            message: 'Image has been loaded and displayed.' + (label ? ' [' + label + ']' : ''),
+            loadTimeSeconds: loadTimeSeconds
+          });
+        });
+      }
+
+      window.addEventListener('DOMContentLoaded', () => {
+        /**
+         * Tracks when the DOM content is fully loaded and sets up event listeners for user input.
+         */
+        trackPerformance('dom-content-loaded');
+        document.getElementById('use-link').addEventListener('click', function() {
+          /**
+           * Loads a DZI image from the URL entered in the input field.
+           */
+          const url = document.getElementById('link-input').value;
+          if (!url) return;
+          loadDZI(url, url);
+        });
+      });
+    </script>
+  </body>
+</html>

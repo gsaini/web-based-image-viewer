@@ -1,0 +1,14 @@
+{
+  "name": "openseadragon-server",
+  "version": "1.0.0",
+  "description": "A simple server to serve an OpenSeadragon zoomable image viewer.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "author": "",
+  "license": "ISC"
+}
