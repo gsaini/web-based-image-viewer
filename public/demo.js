@@ -48,6 +48,7 @@ function setupImage(tileSourceInput, tilesourceName = "") {
   clearImageInfo();
   document.getElementById("filename").textContent = tilesourceName;
 
+  showLoader(true); // Show loader when starting to load
   /**
    * Record the start time for performance measurement.
    * @type {number}
@@ -76,6 +77,7 @@ function setupImage(tileSourceInput, tilesourceName = "") {
         message: 'Image has been loaded and displayed.',
         loadTimeSeconds: loadTimeSeconds
       });
+      showLoader(false); // Hide loader when image is loaded
     });
   });
 
@@ -91,6 +93,7 @@ function setupImage(tileSourceInput, tilesourceName = "") {
       document.getElementById("filename").textContent +=
         ": Error opening file. Is this a valid tiff? See console for details.";
       console.error(error);
+      showLoader(false); // Hide loader on error
     });
 }
 
@@ -161,4 +164,68 @@ function showImageInfo(images) {
     pre.textContent = JSON.stringify(to_print, null, 2);
   });
   desc.appendChild(frag);
+}
+
+/**
+ * Validates if the given URL is a valid TIFF file URL.
+ * @param {string} url
+ * @returns {boolean}
+ */
+function isValidTiffUrl(url) {
+  try {
+    const parsed = new URL(url);
+    // Must end with .tif or .tiff and be http(s)
+    return (parsed.protocol === 'http:' || parsed.protocol === 'https:') && /\.(tif|tiff)(\?.*)?$/i.test(parsed.pathname);
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Shows an error message in the filename field for 3 seconds.
+ * @param {string} msg
+ */
+function showInputError(msg) {
+  const filename = document.getElementById('filename');
+  const old = filename.textContent;
+  filename.textContent = msg;
+  filename.style.color = '#c0392b';
+  setTimeout(() => {
+    filename.textContent = old;
+    filename.style.color = '';
+  }, 3000);
+}
+
+// Update event handler for use-link
+const useLinkBtn = document.getElementById('use-link');
+if (useLinkBtn) {
+  useLinkBtn.onclick = function () {
+    viewer.close();
+    clearImageInfo();
+    let input = document.getElementById('link-input');
+    let url = input.value.trim();
+    if (!url) {
+      showInputError('Please enter a TIFF file URL.');
+      return;
+    }
+    if (!isValidTiffUrl(url)) {
+      showInputError('Please enter a valid TIFF image URL (must end with .tif or .tiff and use http/https).');
+      return;
+    }
+    setupImage(url, url);
+  };
+}
+
+// Load a default TIFF file on page load
+window.addEventListener('DOMContentLoaded', function() {
+  const defaultUrl = 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/36/Q/WD/2020/7/S2A_36QWD_20200701_0_L2A/TCI.tif';
+  const linkInput = document.getElementById('link-input');
+  if (linkInput) linkInput.value = defaultUrl;
+  setupImage(defaultUrl, defaultUrl);
+});
+
+// Show/hide loader utility
+function showLoader(show) {
+  const loader = document.getElementById('loader');
+  if (loader) loader.style.display = show ? 'block' : 'none';
 }

@@ -175,6 +175,26 @@ tileSources: "http://localhost:8000/my_image_output.dzi"
 
 Refer to the `public/` folder for example DZI files and structure.
 
+## Recommendation: DZI vs GeoTIFF Approaches
+
+When building zoomable image viewers with OpenSeadragon, you can choose between serving images as Deep Zoom Images (DZI) or directly as GeoTIFFs (with a suitable plugin).
+
+**DZI (Deep Zoom Image) Approach:**
+- Best for very large images and high-resolution microscopy, satellite, or scanned documents.
+- Images are pre-tiled and pyramidized, so only the visible tiles at the required resolution are loaded.
+- Offers the best performance and smoothest user experience, especially for web delivery.
+- Supported natively by OpenSeadragon and most CDNs/static hosts.
+- Easy to cache and serve via static hosting.
+
+**GeoTIFF Approach:**
+- Useful for geospatial images with embedded metadata (e.g., satellite imagery, maps).
+- Requires a compatible plugin (e.g., openseadragon-geotiff) and more client-side processing.
+- May have slower initial load and higher memory usage for very large files.
+- Not as widely supported for fast, tiled web delivery.
+
+**My Recommendation:**
+> For large images, use the DZI format for better performance and user experience. Convert your TIFF/GeoTIFF files to DZI using tools like VIPS for optimal results in OpenSeadragon.
+
 ### License
 
 This project is licensed under the MIT License.

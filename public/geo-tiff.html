@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>OpenSeadragon GeoTIFF Demo</title>
+    <link rel="stylesheet" href="./main.css" />
+  </head>
+  <body>
+    <h2>🌍 OpenSeadragon GeoTIFF Demo</h2>
+    <div class="input-bar">
+      <input
+        type="text"
+        id="link-input"
+        placeholder="Paste a TIFF file URL (e.g. https://.../image.tif)"
+        value="https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/36/Q/WD/2020/7/S2A_36QWD_20200701_0_L2A/TCI.tif"
+      />
+      <button id="use-link">Load from link</button>
+      <span style="color:#888;">or</span>
+      <label for="file-picker" class="file-label" style="margin-bottom:0;">Choose File</label>
+      <input type="file" id="file-picker" accept=".tif,.tiff" style="display:none;" />
+    </div>
+    <div style="text-align:center; color:#888; font-size:0.97em; margin-bottom:8px;">
+      Example: <code>https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/36/Q/WD/2020/7/S2A_36QWD_20200701_0_L2A/TCI.tif</code>
+    </div>
+    <div class="perf-log" id="perf-log"></div>
+    <div class="loader" id="loader" style="display:none;"></div>
+    <div id="viewer"></div>
+    <div id="file-info">
+      <h2 id="filename">Please select a TIFF file or link</h2>
+      <div id="associated-images" style="display:flex;flex-direction:row;"></div>
+      <h4>Image Description</h4>
+      <div id="image-description" class="image-details"></div>
+    </div>
+    <script type="text/javascript" src="./openseadragon.min.js"></script>
+    <script src="./geotiff-tilesource.min.js"></script>
+    <script type="module" src="./demo.js"></script>
+    <script type="text/javascript">
+      /**
+       * Validates if the given URL is a valid TIFF file URL.
+       * @param {string} url
+       * @returns {boolean}
+       */
+      function isValidTiffUrl(url) {
+        try {
+          const parsed = new URL(url);
+          // Must end with .tif or .tiff and be http(s)
+          return (parsed.protocol === 'http:' || parsed.protocol === 'https:') && /\.(tif|tiff)(\?.*)?$/i.test(parsed.pathname);
+        } catch {
+          return false;
+        }
+      }
+      function showInputError(msg) {
+        const perfLog = document.getElementById('perf-log');
+        perfLog.textContent = msg;
+        perfLog.style.color = '#c0392b';
+        setTimeout(() => { perfLog.textContent = ''; perfLog.style.color = '#555'; }, 3000);
+      }
+      document.getElementById('use-link').addEventListener('click', function() {
+        const url = document.getElementById('link-input').value.trim();
+        if (!url) {
+          showInputError('Please enter a TIFF file URL.');
+          return;
+        }
+        if (!isValidTiffUrl(url)) {
+          showInputError('Please enter a valid TIFF image URL (must end with .tif or .tiff and use http/https).');
+          return;
+        }
+        // ...call your load function for TIFF here...
+        // e.g. setupImage(url, url);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,115 @@
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(120deg, #f8fafc 0%, #e0e7ef 100%);
+  margin: 0;
+  padding: 0;
+}
+h2 {
+  text-align: center;
+  color: #2d3a4a;
+  margin-top: 32px;
+  letter-spacing: 1px;
+}
+.loader {
+  display: none;
+  margin: 20px auto;
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.input-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 24px 0 16px 0;
+  gap: 10px;
+}
+.input-bar input[type="text"] {
+  padding: 10px 12px;
+  border: 1px solid #bfc9d1;
+  border-radius: 6px;
+  font-size: 1rem;
+  width: 320px;
+  transition: border 0.2s;
+}
+.input-bar input[type="text"]:focus {
+  border: 1.5px solid #3498db;
+  outline: none;
+}
+.input-bar button {
+  background: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 18px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.input-bar button:hover {
+  background: #217dbb;
+}
+.input-bar input[type="file"] {
+  font-size: 1rem;
+  margin-left: 8px;
+}
+.file-label {
+  background: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 18px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-left: 8px;
+}
+.file-label:hover {
+  background: #217dbb;
+}
+#openseadragon-viewer, #viewer {
+  width: 900px;
+  height: 600px;
+  margin: 0 auto 24px auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(44, 62, 80, 0.08);
+  background: #fff;
+  border: 1.5px solid #e0e7ef;
+}
+.perf-log {
+  text-align: center;
+  color: #555;
+  font-size: 0.98rem;
+  margin-bottom: 18px;
+  min-height: 1.2em;
+}
+#file-info {
+  max-width: 900px;
+  margin: 0 auto 24px auto;
+  background: #f6f8fa;
+  border-radius: 8px;
+  padding: 18px 24px;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.04);
+}
+#filename {
+  color: #2d3a4a;
+  font-size: 1.1em;
+  margin-bottom: 8px;
+}
+.image-details {
+  font-size: 0.98em;
+  color: #444;
+  background: #fff;
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-top: 8px;
+  border: 1px solid #e0e7ef;
+  overflow-x: auto;
+}
