@@ -25,49 +25,20 @@
     <div class="perf-log" id="perf-log"></div>
     <div class="loader" id="loader" style="display:none;"></div>
     <div id="viewer"></div>
+     <div style="text-align:center; margin: 18px 0;">
+      <a href="./" style="color:#3498db; font-size:1.08em; text-decoration:underline;">
+        ← Back to Viewer for DZI Files
+      </a>
+    </div>
     <div id="file-info">
       <h2 id="filename">Please select a TIFF file or link</h2>
       <div id="associated-images" style="display:flex;flex-direction:row;"></div>
       <h4>Image Description</h4>
       <div id="image-description" class="image-details"></div>
     </div>
+   
     <script type="text/javascript" src="./openseadragon.min.js"></script>
     <script src="./geotiff-tilesource.min.js"></script>
     <script type="module" src="./demo.js"></script>
-    <script type="text/javascript">
-      /**
-       * Validates if the given URL is a valid TIFF file URL.
-       * @param {string} url
-       * @returns {boolean}
-       */
-      function isValidTiffUrl(url) {
-        try {
-          const parsed = new URL(url);
-          // Must end with .tif or .tiff and be http(s)
-          return (parsed.protocol === 'http:' || parsed.protocol === 'https:') && /\.(tif|tiff)(\?.*)?$/i.test(parsed.pathname);
-        } catch {
-          return false;
-        }
-      }
-      function showInputError(msg) {
-        const perfLog = document.getElementById('perf-log');
-        perfLog.textContent = msg;
-        perfLog.style.color = '#c0392b';
-        setTimeout(() => { perfLog.textContent = ''; perfLog.style.color = '#555'; }, 3000);
-      }
-      document.getElementById('use-link').addEventListener('click', function() {
-        const url = document.getElementById('link-input').value.trim();
-        if (!url) {
-          showInputError('Please enter a TIFF file URL.');
-          return;
-        }
-        if (!isValidTiffUrl(url)) {
-          showInputError('Please enter a valid TIFF image URL (must end with .tif or .tiff and use http/https).');
-          return;
-        }
-        // ...call your load function for TIFF here...
-        // e.g. setupImage(url, url);
-      });
-    </script>
   </body>
 </html>
