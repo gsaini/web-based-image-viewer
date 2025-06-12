@@ -8,8 +8,17 @@
 ![GeoTiff](https://img.shields.io/badge/geotiff-%23FF6F00.svg?style=for-the-badge&logo=geotiff&logoColor=white)
 ![pnpm](https://img.shields.io/badge/pnpm-%231C7C54.svg?style=for-the-badge&logo=pnpm&logoColor=white)
 ![vips](https://img.shields.io/badge/vips-%23FF6F00.svg?style=for-the-badge&logo=vips&logoColor=white)
+![Render](https://img.shields.io/badge/Render-%23000000.svg?style=for-the-badge&logo=render&logoColor=white)
+![Netlify](https://img.shields.io/badge/Netlify-%23000000.svg?style=for-the-badge&logo=netlify&logoColor=white)
 
 This project sets up a simple server to serve zoomable images using OpenSeadragon. It supports loading Deep Zoom Image (DZI) files via file upload or URL, and includes performance tracking for image load times.
+
+## Live Demos
+You can try the live demos of this project hosted on Netlify and Render. These demos showcase the functionality of loading DZI files and viewing them with OpenSeadragon. You can load DZI files from your local machine or from a URL. The viewer will display the image and log performance metrics to the browser console.
+
+- [Netlify Deployment](https://web-based-image-viewer.netlify.app/)
+- [Render Deployment](https://web-based-image-viewer.onrender.com/)
+
 
 ## Project Structure
 
