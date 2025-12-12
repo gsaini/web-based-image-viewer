@@ -7,8 +7,12 @@
     "start": "node src/server.js"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "multer": "^2.0.2",
+    "sharp": "^0.34.5",
+    "uuid": "^13.0.0"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "packageManager": "pnpm@10.22.0"
 }

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>TIFF/SCN Viewer</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        height: 100vh;
+        overflow: hidden;
+      }
+      
+      .container {
+        display: flex;
+        height: 100vh;
+      }
+      
+      /* Left Panel */
+      .left-panel {
+        width: 25%;
+        background: #f8f9fa;
+        border-right: 1px solid #dee2e6;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .panel-header {
+        padding: 20px;
+        background: #2c3e50;
+        color: white;
+      }
+      
+      .panel-header h1 {
+        font-size: 1.3em;
+        font-weight: 600;
+      }
+      
+      /* Upload Section */
+      .upload-section {
+        padding: 20px;
+        border-bottom: 1px solid #dee2e6;
+      }
+      
+      .drop-zone {
+        border: 2px dashed #3498db;
+        border-radius: 8px;
+        padding: 30px 20px;
+        text-align: center;
+        background: white;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      
+      .drop-zone:hover {
+        border-color: #2ecc71;
+        background: #f0f8ff;
+      }
+      
+      .drop-zone.dragging {
+        border-color: #2ecc71;
+        background: #e8f8f5;
+      }
+      
+      .drop-zone p {
+        color: #555;
+        font-size: 0.95em;
+        margin: 5px 0;
+      }
+      
+      .drop-zone .icon {
+        font-size: 2em;
+        margin-bottom: 10px;
+      }
+      
+      #file-input {
+        display: none;
+      }
+      
+      /* Progress Bar */
+      .upload-progress {
+        margin-top: 15px;
+        display: none;
+      }
+      
+      .progress-bar-container {
+        background: #e0e0e0;
+        border-radius: 10px;
+        height: 20px;
+        overflow: hidden;
+      }
+      
+      .progress-bar {
+        background: linear-gradient(90deg, #3498db, #2ecc71);
+        height: 100%;
+        width: 0%;
+        transition: width 0.3s;
+      }
+      
+      .progress-text {
+        text-align: center;
+        margin-top: 5px;
+        color: #555;
+        font-size: 0.85em;
+      }
+      
+      /* File List */
+      .file-list {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+      }
+      
+      .file-list h2 {
+        font-size: 1em;
+        color: #2c3e50;
+        margin-bottom: 15px;
+        font-weight: 600;
+      }
+      
+      .file-item {
+        background: white;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        padding: 12px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      
+      .file-item:hover {
+        background: #e3f2fd;
+        border-color: #3498db;
+      }
+      
+      .file-item.active {
+        background: #3498db;
+        color: white;
+        border-color: #3498db;
+      }
+      
+      .file-name {
+        font-weight: 500;
+        font-size: 0.9em;
+        margin-bottom: 5px;
+      }
+      
+      .file-info {
+        font-size: 0.8em;
+        color: #666;
+      }
+      
+      .file-item.active .file-info {
+        color: rgba(255, 255, 255, 0.9);
+      }
+      
+      .empty-state {
+        text-align: center;
+        color: #999;
+        padding: 40px 20px;
+        font-size: 0.9em;
+      }
+      
+      /* Right Panel */
+      .right-panel {
+        width: 75%;
+        display: flex;
+        flex-direction: column;
+        background: #fff;
+      }
+      
+      .viewer-header {
+        padding: 15px 20px;
+        background: #ecf0f1;
+        border-bottom: 1px solid #dee2e6;
+      }
+      
+      .viewer-header h2 {
+        font-size: 1.1em;
+        color: #2c3e50;
+        font-weight: 600;
+      }
+      
+      .viewer-info {
+        font-size: 0.85em;
+        color: #666;
+        margin-top: 5px;
+      }
+      
+      .viewer-container {
+        flex: 1;
+        position: relative;
+        background: #f5f5f5;
+      }
+      
+      #viewer {
+        width: 100%;
+        height: 100%;
+      }
+      
+      .viewer-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        color: #999;
+        font-size: 1.1em;
+      }
+      
+      /* Status Messages */
+      .status-message {
+        padding: 10px 20px;
+        text-align: center;
+        font-size: 0.9em;
+        display: none;
+      }
+      
+      .status-message.success {
+        background: #d4edda;
+        color: #155724;
+      }
+      
+      .status-message.error {
+        background: #f8d7da;
+        color: #721c24;
+      }
+      
+      .status-message.info {
+        background: #d1ecf1;
+        color: #0c5460;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Left Panel -->
+      <div class="left-panel">
+        <div class="panel-header">
+          <h1>🔬 WSI Viewer</h1>
+        </div>
+        
+        <!-- Upload Section -->
+        <div class="upload-section">
+          <div class="drop-zone" id="drop-zone">
+            <div class="icon">📤</div>
+            <p><strong>Drop TIFF/SCN file here</strong></p>
+            <p style="color: #999; font-size: 0.85em;">or click to browse (max 15GB)</p>
+          </div>
+          <input type="file" id="file-input" accept=".tif,.tiff,.scn" />
+          
+          <div class="upload-progress" id="upload-progress">
+            <div class="progress-bar-container">
+              <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <div class="progress-text" id="progress-text">Uploading...</div>
+          </div>
+        </div>
+        
+        <!-- File List -->
+        <div class="file-list">
+          <h2>Uploaded Files</h2>
+          <div id="file-list-container">
+            <div class="empty-state">No files uploaded yet</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right Panel -->
+      <div class="right-panel">
+        <div class="status-message" id="status-message"></div>
+        
+        <div class="viewer-header">
+          <h2 id="viewer-title">Select a file to view</h2>
+          <div class="viewer-info" id="viewer-info"></div>
+        </div>
+        
+        <div class="viewer-container">
+          <div id="viewer">
+            <div class="viewer-placeholder">
+              Select a file from the left panel to view
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script src="./openseadragon.min.js"></script>
+    <script src="./flextilesource.js"></script>
+    <script src="./flex-tile.js"></script>
+  </body>
+</html>

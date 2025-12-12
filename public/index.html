@@ -14,9 +14,15 @@
         placeholder="Paste a DZI file URL (e.g. https://.../image.dzi)"
       />
       <button id="use-link">Load from link</button>
+      <span style="color:#888;">or</span>
+      <button id="choose-directory">Choose Directory</button>
     </div>
     <div style="text-align:center; color:#888; font-size:0.97em; margin-bottom:8px;">
       Example: <code>https://openseadragon.github.io/example-images/duomo/duomo.dzi</code>
+    </div>
+    <div id="directory-files" style="margin: 10px auto; max-width: 800px; display: none;">
+      <h3 style="color: #2c3e50; font-size: 1.1em; margin-bottom: 10px;">📁 Available DZI Files:</h3>
+      <div id="dzi-file-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
     </div>
     <div class="loader" id="loader"></div>
     <div class="perf-log" id="perf-log"></div>
@@ -24,6 +30,10 @@
     <div style="text-align:center; margin-top: 18px;">
       👉 <a href="./geo-tiff.html" style="color:#3498db; font-size:1.08em; text-decoration:underline;">
         Try the OpenSeadragon GeoTIFF Demo (Tiff Files)
+      </a>
+      <br/>
+      🔧 <a href="./flex-tile.html" style="color:#3498db; font-size:1.08em; text-decoration:underline; margin-top: 8px; display: inline-block;">
+        Try the Custom Tile Source Demo (FlexTileSource)
       </a>
     </div>
     <!-- Include OpenSeadragon library (use 5.0.1 for plugin compatibility) -->
